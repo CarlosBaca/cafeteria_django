@@ -1,40 +1,68 @@
 /* =========================================================
-   ESTILO GENERAL DEL SISTEMA
+   ESTILO GENERAL
 ========================================================= */
 
 body {
 
-    /* Fondo claro para todas las páginas */
-    background-color: #f4f4f4;
+    /* Fondo general de la aplicación */
+    background-color: #f5f5f5;
 
 }
 
 
-/* Mejoramos la presentación de los formularios
-   generados automáticamente por Django */
+/* =========================================================
+   IMÁGENES DE PRODUCTOS
+========================================================= */
 
-form input,
-form select,
-form textarea {
+.producto-imagen {
 
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    /* Todas las imágenes tendrán la misma altura */
+    height: 220px;
+
+    /* Evita deformar la imagen */
+    object-fit: cover;
+
+}
+
+
+/* =========================================================
+   PRODUCTOS SIN IMAGEN
+========================================================= */
+
+.producto-sin-imagen {
+
+    height: 220px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background-color: #e9ecef;
+
+    color: #6c757d;
+
+    font-size: 18px;
 
 }
 
 
-/* Los formularios de la barra de navegación
-   no deben ocupar todo el ancho */
+/* =========================================================
+   TARJETAS
+========================================================= */
 
-.navbar form {
+.card {
 
-    width: auto;
+    /* Suaviza el efecto al pasar el mouse */
+    transition: transform 0.2s;
 
 }
 
-.navbar form button {
 
-    width: auto;
+.card:hover {
+
+    /* Eleva visualmente la tarjeta */
+    transform: translateY(-3px);
 
 }
