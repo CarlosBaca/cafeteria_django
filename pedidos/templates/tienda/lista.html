@@ -4,10 +4,6 @@
 {% block content %}
 
 
-<!-- =====================================================
-     ENCABEZADO
-====================================================== -->
-
 <div class="mb-4">
 
     <h1>
@@ -15,21 +11,15 @@
     </h1>
 
     <p class="text-muted">
-        Productos disponibles en nuestra cafetería.
+        Seleccione los productos
+        que desea agregar al pedido.
     </p>
 
 </div>
 
 
-<!-- =====================================================
-     PRODUCTOS
-====================================================== -->
-
 <div class="row g-4">
 
-
-    <!-- Recorremos todos los productos enviados
-         desde la vista tienda(). -->
 
     {% for producto in productos %}
 
@@ -40,44 +30,32 @@
         <div class="card h-100 shadow-sm">
 
 
-            <!-- ==========================================
-                 IMAGEN
-            =========================================== -->
+            <!-- =============================================
+             IMAGEN
+        ============================================== -->
 
             {% if producto.imagen %}
 
-                <!-- Si el producto tiene una imagen,
-                     mostramos el archivo almacenado
-                     dentro de media/productos/. -->
-
-                <img
-                    src="{{ producto.imagen.url }}"
-                    class="card-img-top producto-imagen"
-                    alt="{{ producto.nombre }}"
-                >
+            <img src="{{ producto.imagen.url }}" class="card-img-top producto-imagen" alt="{{ producto.nombre }}">
 
             {% else %}
 
-                <!-- Si no existe una imagen mostramos
-                     un espacio informativo. -->
+            <div class="producto-sin-imagen">
 
-                <div class="producto-sin-imagen">
+                Sin imagen
 
-                    Sin imagen
-
-                </div>
+            </div>
 
             {% endif %}
 
 
-            <!-- ==========================================
-                 INFORMACIÓN DEL PRODUCTO
-            =========================================== -->
+            <!-- =============================================
+             DATOS
+        ============================================== -->
 
             <div class="card-body">
 
 
-                <!-- Nombre -->
                 <h5 class="card-title">
 
                     {{ producto.nombre }}
@@ -85,33 +63,28 @@
                 </h5>
 
 
-                <!-- Categoría -->
-                <p class="text-muted mb-2">
-
-                    Categoría:
+                <p class="text-muted">
 
                     {% if producto.categoria %}
 
-                        {{ producto.categoria.nombre }}
+                    {{ producto.categoria.nombre }}
 
                     {% else %}
 
-                        Sin categoría
+                    Sin categoría
 
                     {% endif %}
 
                 </p>
 
 
-                <!-- Descripción -->
-                <p class="card-text">
+                <p>
 
-                    {{ producto.descripcion|default:"Sin descripción." }}
+                    {{ producto.descripcion }}
 
                 </p>
 
 
-                <!-- Precio -->
                 <h4 class="text-primary">
 
                     S/ {{ producto.precio }}
@@ -119,25 +92,65 @@
                 </h4>
 
 
-                <!-- ======================================
-                     STOCK
-                ======================================= -->
-
                 {% if producto.stock > 0 %}
+
+                <p>
 
                     <span class="badge text-bg-success">
 
-                        Stock: {{ producto.stock }}
+                        Stock:
+                        {{ producto.stock }}
 
                     </span>
 
+                </p>
+
+
+                <!-- =========================================
+                 FORMULARIO PARA AGREGAR
+            ========================================== -->
+
+                <form method="post" action="{% url 'agregar_producto' producto.id %}">
+
+                    {% csrf_token %}
+
+
+                    <!-- Indicamos que venimos
+                     desde la tienda. -->
+
+                    <input type="hidden" name="origen" value="tienda">
+
+
+                    <button type="submit" class="btn btn-success w-100">
+
+                        Agregar al carrito
+
+                    </button>
+
+
+                </form>
+
+
                 {% else %}
+
+
+                <p>
 
                     <span class="badge text-bg-danger">
 
                         Sin stock
 
                     </span>
+
+                </p>
+
+
+                <button class="btn btn-secondary w-100" disabled>
+
+                    No disponible
+
+                </button>
+
 
                 {% endif %}
 
@@ -154,14 +167,11 @@
     {% empty %}
 
 
-    <!-- Este bloque se mostrará si no existen
-         productos activos en la base de datos. -->
-
     <div class="col-12">
 
         <div class="alert alert-info">
 
-            Actualmente no existen productos disponibles.
+            No existen productos disponibles.
 
         </div>
 

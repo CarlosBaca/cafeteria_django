@@ -5,7 +5,6 @@
 # Nombre visible dentro de GitHub Actions.
 name: Verificar proyecto Django
 
-
 # =========================================================
 # EVENTOS
 # =========================================================
@@ -17,27 +16,21 @@ on:
   push:
   pull_request:
 
-
 # =========================================================
 # TRABAJOS
 # =========================================================
 
 jobs:
-
   # Trabajo encargado de comprobar Django.
   verificar:
-
     # Máquina virtual proporcionada por GitHub.
     runs-on: ubuntu-latest
-
 
     # =====================================================
     # PASOS
     # =====================================================
 
     steps:
-
-
       # ---------------------------------------------------
       # PASO 1
       # Descargar el código del repositorio.
@@ -45,7 +38,6 @@ jobs:
 
       - name: Obtener repositorio
         uses: actions/checkout@v7
-
 
       # ---------------------------------------------------
       # PASO 2
@@ -56,13 +48,11 @@ jobs:
         uses: actions/setup-python@v7
 
         with:
-
           # Versión utilizada por el proyecto.
           python-version: "3.14"
 
           # Utilizar requirements.txt para cachear pip.
           cache: "pip"
-
 
       # ---------------------------------------------------
       # PASO 3
@@ -79,7 +69,6 @@ jobs:
           # Instalar las bibliotecas del proyecto.
           pip install -r requirements.txt
 
-
       # ---------------------------------------------------
       # PASO 4
       # Verificar configuración general de Django.
@@ -88,7 +77,6 @@ jobs:
       - name: Verificar proyecto Django
 
         run: python manage.py check
-
 
       # ---------------------------------------------------
       # PASO 5
@@ -100,7 +88,6 @@ jobs:
 
         run: python manage.py makemigrations --check --dry-run
 
-
       # ---------------------------------------------------
       # PASO 6
       # Comprobar que las migraciones puedan aplicarse.
@@ -109,3 +96,13 @@ jobs:
       - name: Aplicar migraciones
 
         run: python manage.py migrate
+
+      # ---------------------------------------------------
+      # EJECUTAR PRUEBAS AUTOMÁTICAS
+      # ---------------------------------------------------
+
+      # Ejecutamos las pruebas creadas
+      # dentro de pedidos/tests.py.
+      - name: Ejecutar pruebas Django
+
+        run: python manage.py test
