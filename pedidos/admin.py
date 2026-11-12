@@ -100,6 +100,33 @@ class DetallePedidoInline(admin.TabularInline):
 # ADMINISTRACIÓN DE PEDIDOS
 # =========================================================
 
+@admin.register(Pedido)
+class PedidoAdmin(admin.ModelAdmin):
+
+    # Columnas que aparecerán en la lista de pedidos.
+    list_display = (
+        "id",
+        "usuario",
+        "fecha",
+        "total",
+        "estado",
+    )
+
+    # Filtros laterales.
+    list_filter = (
+        "estado",
+        "fecha",
+    )
+
+    # Permite buscar pedidos por nombre de usuario.
+    search_fields = (
+        "usuario__username",
+    )
+
+    # Los detalles aparecerán dentro del pedido.
+    inlines = [
+        DetallePedidoInline,
+    ]
 
 # =========================================================
 # ADMINISTRACIÓN DE DETALLES
